@@ -36,24 +36,12 @@ class VendingMachine
     change = payment - price
   end
 
-  def paid_in_full?(payment)
-    payment = payment.to_i
-    price = @items[:price]
-    if @payment == price
-      true
-    else
-      false
-    end
-  end
-
   def vend(code, payment)
     item = @items[code.to_i]
-    @change = payment - item[:price].to_i
-
-    unless payment >= item[:price].to_i
-      puts "You paid #{payment} cents, You owe #{(payment - item[:price].to_i).abs}"
-    else
-      puts "Your #{item[:name]} has been dispensed, your change is #{change} cents."
+    change = payment - item[:price].to_i
+      puts "Your #{item[:name]} has been dispensed."
+    if change > 0
+      puts "Your change is #{change} cents."
     end
   end
 end
