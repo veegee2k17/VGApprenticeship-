@@ -16,19 +16,25 @@ class VendingMachine
 
   def show_price(code)
     item = @items[code]
-    puts "#{@items[code][:name]} costs #{@items[code][:price]} cents"
+    puts "#{item[:name]} costs #{item[:price]} cents"
   end
 
   def current_selection(code)
     if @items.keys.include? code
       puts "You selected #{@items[code][:name]}. Please insert payment"
-    else
-      puts "Your selection is invalid"
     end
   end
 
   def accept_payment(payment)
     @payment = payment
+    coins = [1,5,10,25]
+
+    if !coins.include? payment
+      puts "Please submit valid payment type of 1, 5, 10, or 25 cents."
+      false
+    else
+      true
+    end
   end
 
   def calculate_change(payment)
@@ -36,12 +42,19 @@ class VendingMachine
     change = payment - price
   end
 
-  def vend(code, payment)
+  def vend(code, payment, final_payment, final_payment2)
     item = @items[code.to_i]
-    change = payment - item[:price].to_i
-      puts "Your #{item[:name]} has been dispensed."
-    if change > 0
-      puts "Your change is #{change} cents."
+    price = item[:price].to_i
+
+    if final_payment2 != nil
+      change2 = final_payment - price
+      puts "Your change is #{change2} cents."
     end
+
+    if final_payment != nil
+      change1 = final_payment - price
+      puts "Your change is #{change1} cents."
+    end
+    puts "Your #{item[:name]} has been dispensed."
   end
 end
