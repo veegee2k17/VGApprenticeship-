@@ -2,47 +2,47 @@ require "./vending_machine"
 require "pry"
 
 items = {
-  1 => {name: "Coke", price: 25 },
-  2 => {name: "Pepsi", price: 35 },
-  3 => {name: "Sprite", price: 45}
+  1 => {name: "Coke", price: 25 , quantity: 5},
+  2 => {name: "Pepsi", price: 35, quantity: 5},
+  3 => {name: "Sprite", price: 45, quantity: 5}
   }
 
 v = VendingMachine.new(items)
 
 puts "This vending machine sells Coke, Pepsi, and Sprite."
 puts "Select 1 for Coke, 2 for Pepsi, or 3 for Sprite."
-code = gets.chomp
+@code = gets.chomp
 
-selection_valid = v.selection_valid?(code.to_i)
+selection_valid = v.selection_valid?(@code.to_i)
 
 until selection_valid
   puts "Enter correct code"
-  code = gets.chomp
-  selection_valid = v.selection_valid?(code.to_i)
+  @code = gets.chomp
+  selection_valid = v.selection_valid?(@code.to_i)
 end
 
-v.show_price(code.to_i)
+v.show_price(@code.to_i)
 
 puts "Do you want to make this your selection? Y or N."
 answer = gets.chomp
 
 until answer == "Y" || answer == "y"
   puts "Select 1 for Coke, 2 for Pepsi, or 3 for Sprite."
-  code = gets.chomp
+  @code = gets.chomp
 
-  selection_valid = v.selection_valid?(code.to_i)
+  selection_valid = v.selection_valid?(@code.to_i)
 
   until selection_valid
     puts "Enter correct code"
-    code = gets.chomp
-    selection_valid = v.selection_valid?(code.to_i)
+    @code = gets.chomp
+    selection_valid = v.selection_valid?(@code.to_i)
   end
-  v.show_price(code.to_i)
+  v.show_price(@code.to_i)
   puts "Do you want to make this your selection? Y or N."
   answer = gets.chomp
 end
 
-v.current_selection(code.to_i)
+v.current_selection(@code.to_i)
 
 payment = gets.chomp.to_i
 
@@ -51,7 +51,7 @@ until v.accept_payment(payment.to_i) == true
 end
 
 item = items
-price = item[code.to_i][:price]
+price = item[@code.to_i][:price]
 
 if payment >= price
   puts "You paid #{payment.to_i} cents. Press Y to vend, press N to refund."
@@ -80,74 +80,73 @@ else
   answer = gets.chomp
 end
 
+quantity = item[@code.to_i][:quantity]
 if answer == "Y" || answer == "y"
-  v.vend(code.to_i, payment.to_i, @final_payment, @final_payment2)
+  v.vend(@code.to_i, payment.to_i, @final_payment, @final_payment2)
+
+  if @code == "1"
+    puts "
+    ..--------------------..
+    |``--------------------''|
+    |                        |
+    |      ,,,;;;;;;,,,      |
+    |   ,;;;;;;;;;;;;;;;;,   |
+    |  ;;;;;;;;;;;;;;;;;;;;  |
+    | ;;;;;;;;;;;;;;;;;;;;;; |
+    |   _   _    _  _   ;;;; |
+    |  (_  (_)  (_ (_)  ;;;; |
+    | ;;;;;;;;;;;;;;;;;;;;;; |
+    | :::..     ...::::::::: |
+    |  ::::::::::::::::::::  |
+    |   '::::::::::::::::'   |
+    |      '''::::::'''      |
+    |                        |
+    |                        |
+    ';----..............----;'
+      '--------------------'"
+
+  elsif @code == "2"
+    puts "
+    ..--------------------..
+    |``--------------------''|
+    |                        |
+    |      ,,,;;;;;;,,,      |
+    |   ,;;;;;;;;;;;;;;;;,   |
+    |  ;;;;;;;;;;;;;;;;;;;;  |
+    | ;;;;;;;;;'''  _  '';;; |
+    |   _'''_  _   (_'  |  ' |
+    |  |_) |_  |_) ._)  |    |
+    | .|   |_  |     .....   |
+    | :::..     ...::::::::: |
+    |  ::::::::::::::::::::  |
+    |   '::::::::::::::::'   |
+    |      '''::::::'''      |
+    |                        |
+    |                        |
+    ';----..............----;'
+      '--------------------'"
+
+  elsif @code == "3"
+    puts "
+    ..--------------------..
+    |``--------------------''|
+    |                        |
+    |      ,,,;;;;;;,,,      |
+    |   ,;;;;;;;;;;;;;;;;,   |
+    |  ;;;;;;;;;;;;;;;;;;;;  |
+    | ;;;;;;;;;;;;;;;;;;;;;; |
+    | .......     .......... |
+    | ;;;;;;   ;;;;;;;;;;;;; |
+    | .......   ...........; |
+    | :::::::::   '::::::::: |
+    |  :::::      :::::::::  |
+    |   '::::....'::::::::   |
+    |      '''::::::'''      |
+    |                        |
+    |                        |
+    ';----..............----;'
+      '--------------------'"
+  end
 else
   puts "Your payment has been refunded. Goodbye!"
-end
-
-if code == "1"
-  puts "
-  ..--------------------..
-  |``--------------------''|
-  |                        |
-  |      ,,,;;;;;;,,,      |
-  |   ,;;;;;;;;;;;;;;;;,   |
-  |  ;;;;;;;;;;;;;;;;;;;;  |
-  | ;;;;;;;;;;;;;;;;;;;;;; |
-  |   _   _    _  _   ;;;; |
-  |  (_  (_)  (_ (_)  ;;;; |
-  | ;;;;;;;;;;;;;;;;;;;;;; |
-  | :::..     ...::::::::: |
-  |  ::::::::::::::::::::  |
-  |   '::::::::::::::::'   |
-  |      '''::::::'''      |
-  |                        |
-  |                        |
-  ';----..............----;'
-    '--------------------'"
-end
-
-if code == "2"
-  puts "
-  ..--------------------..
-  |``--------------------''|
-  |                        |
-  |      ,,,;;;;;;,,,      |
-  |   ,;;;;;;;;;;;;;;;;,   |
-  |  ;;;;;;;;;;;;;;;;;;;;  |
-  | ;;;;;;;;;'''  _  '';;; |
-  |   _'''_  _   (_'  |  ' |
-  |  |_) |_  |_) ._)  |    |
-  | .|   |_  |     .....   |
-  | :::..     ...::::::::: |
-  |  ::::::::::::::::::::  |
-  |   '::::::::::::::::'   |
-  |      '''::::::'''      |
-  |                        |
-  |                        |
-  ';----..............----;'
-    '--------------------'"
-end
-
-if code == "3"
-  puts "
-  ..--------------------..
-  |``--------------------''|
-  |                        |
-  |      ,,,;;;;;;,,,      |
-  |   ,;;;;;;;;;;;;;;;;,   |
-  |  ;;;;;;;;;;;;;;;;;;;;  |
-  | ;;;;;;;;;;;;;;;;;;;;;; |
-  | .......     .......... |
-  | ;;;;;;   ;;;;;;;;;;;;; |
-  | .......   ...........; |
-  | :::::::::   '::::::::: |
-  |  :::::      :::::::::  |
-  |   '::::....'::::::::   |
-  |      '''::::::'''      |
-  |                        |
-  |                        |
-  ';----..............----;'
-    '--------------------'"
 end

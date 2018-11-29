@@ -15,8 +15,8 @@ class VendingMachine
   end
 
   def show_price(code)
-    item = @items[code]
-    puts "#{item[:name]} costs #{item[:price]} cents"
+    @item = @items[code]
+    puts "#{@item[:name]} costs #{@item[:price]} cents"
   end
 
   def current_selection(code)
@@ -38,23 +38,26 @@ class VendingMachine
   end
 
   def calculate_change(payment)
-    price = @items[:price].to_i
-    change = payment - price
+    @price = @items[:price].to_i
+    @change = @payment - @price
   end
 
   def vend(code, payment, final_payment, final_payment2)
-    item = @items[code.to_i]
-    price = item[:price].to_i
+    @item = @items[code.to_i]
+    @price = @item[:price].to_i
 
-    if final_payment2 != nil
-      change2 = final_payment - price
+    puts "Your #{@item[:name]} has been dispensed."
+
+    if final_payment2 != nil && final_payment2 != @price
+      change2 = final_payment2 - @price
       puts "Your change is #{change2} cents."
-    end
-
-    if final_payment != nil
-      change1 = final_payment - price
+    elsif final_payment != nil && final_payment != @price
+      change1 = final_payment - @price
       puts "Your change is #{change1} cents."
     end
-    puts "Your #{item[:name]} has been dispensed."
+  end
+
+  def subtract_balance(code)
+    # I want this to subtract the quantity for the selected code and make that be the new quantity
   end
 end
