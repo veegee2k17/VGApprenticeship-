@@ -56,8 +56,4 @@ class VendingMachine
       puts "Your change is #{change1} cents."
     end
   end
-
-  def subtract_balance(code)
-    # I want this to subtract the quantity for the selected code and make that be the new quantity
-  end
 end
