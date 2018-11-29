@@ -45,7 +45,10 @@ end
 v.current_selection(code.to_i)
 
 payment = gets.chomp.to_i
-v.accept_payment(payment.to_i)
+
+until v.accept_payment(payment.to_i) == true
+  payment = gets.chomp.to_i
+end
 
 item = items
 price = item[code.to_i][:price]
@@ -55,20 +58,96 @@ if payment >= price
 else
   puts "You paid #{payment} cents, You owe #{(price) - (payment)}. Submit the rest of your payment."
 
-  first_payment = payment
-  additional_payment = gets.chomp.to_i
-  final_payment = (first_payment + additional_payment).to_i
+  @first_payment = payment
+  @additional_payment = gets.chomp.to_i
+  @final_payment = (@first_payment + @additional_payment).to_i
 
-  if final_payment == price
-    puts "You paid #{final_payment} cents. Press Y to vend, press N to refund."
+  if @final_payment >= price
+    puts "You paid #{@final_payment} cents. Press Y to vend, press N to refund."
   else
-    puts "You paid #{final_payment} cents, You owe #{(price) - (final_payment)}. Submit the rest of your payment."
+    puts "You paid #{@final_payment} cents, You owe #{(price) - (@final_payment)}. Submit the rest of your payment."
+
+    @additional_payment2 = gets.chomp.to_i
+    @final_payment2 = (@first_payment + @additional_payment + @additional_payment2).to_i
+
+    if @final_payment2 == price || @final_payment2 > price
+      puts "You paid #{@final_payment2} cents. Press Y to vend, press N to refund."
+    else
+      answer = nil
+      puts "Your order has been canceled due to too many attempts."
+    end
   end
+  answer = gets.chomp
 end
-answer = gets.chomp
 
 if answer == "Y" || answer == "y"
-  v.vend(code.to_i, payment.to_i)
+  v.vend(code.to_i, payment.to_i, @final_payment, @final_payment2)
 else
-  puts "Your order has been canceled. Your payment of #{payment} cents has been refunded. Goodbye!"
+  puts "Your payment has been refunded. Goodbye!"
+end
+
+if code == "1"
+  puts "
+  ..--------------------..
+  |``--------------------''|
+  |                        |
+  |      ,,,;;;;;;,,,      |
+  |   ,;;;;;;;;;;;;;;;;,   |
+  |  ;;;;;;;;;;;;;;;;;;;;  |
+  | ;;;;;;;;;;;;;;;;;;;;;; |
+  |   _   _    _  _   ;;;; |
+  |  (_  (_)  (_ (_)  ;;;; |
+  | ;;;;;;;;;;;;;;;;;;;;;; |
+  | :::..     ...::::::::: |
+  |  ::::::::::::::::::::  |
+  |   '::::::::::::::::'   |
+  |      '''::::::'''      |
+  |                        |
+  |                        |
+  ';----..............----;'
+    '--------------------'"
+end
+
+if code == "2"
+  puts "
+  ..--------------------..
+  |``--------------------''|
+  |                        |
+  |      ,,,;;;;;;,,,      |
+  |   ,;;;;;;;;;;;;;;;;,   |
+  |  ;;;;;;;;;;;;;;;;;;;;  |
+  | ;;;;;;;;;'''  _  '';;; |
+  |   _'''_  _   (_'  |  ' |
+  |  |_) |_  |_) ._)  |    |
+  | .|   |_  |     .....   |
+  | :::..     ...::::::::: |
+  |  ::::::::::::::::::::  |
+  |   '::::::::::::::::'   |
+  |      '''::::::'''      |
+  |                        |
+  |                        |
+  ';----..............----;'
+    '--------------------'"
+end
+
+if code == "3"
+  puts "
+  ..--------------------..
+  |``--------------------''|
+  |                        |
+  |      ,,,;;;;;;,,,      |
+  |   ,;;;;;;;;;;;;;;;;,   |
+  |  ;;;;;;;;;;;;;;;;;;;;  |
+  | ;;;;;;;;;;;;;;;;;;;;;; |
+  | .......     .......... |
+  | ;;;;;;   ;;;;;;;;;;;;; |
+  | .......   ...........; |
+  | :::::::::   '::::::::: |
+  |  :::::      :::::::::  |
+  |   '::::....'::::::::   |
+  |      '''::::::'''      |
+  |                        |
+  |                        |
+  ';----..............----;'
+    '--------------------'"
 end
