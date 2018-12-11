@@ -11,7 +11,7 @@ class VendingMachine
   end
 
   def selection_valid?(code)
-    @items.keys.include? code
+   @items.keys.include? code
   end
 
   def show_price(code)
@@ -45,13 +45,21 @@ class VendingMachine
   def vend(code, payment, final_payment, final_payment2)
     @item = @items[code.to_i]
     @price = @item[:price].to_i
+    @quantity = @items[code.to_i][:quantity]
 
-    puts "Your #{@item[:name]} has been dispensed."
+    # Vending item
+    if @item[:quantity] == 0
+      puts "#{@item[:name]} is out of stock. Your payment has been refunded."
+    else
+      puts "Your #{@item[:name]} has been dispensed."
+      @item[:quantity] -= 1
+    end
 
-    if final_payment2 != nil && final_payment2 != @price
+    if final_payment2 != nil && final_payment2 > @price
       change2 = final_payment2 - @price
       puts "Your change is #{change2} cents."
-    elsif final_payment != nil && final_payment != @price
+    elsif
+      final_payment != nil && final_payment > @price
       change1 = final_payment - @price
       puts "Your change is #{change1} cents."
     end
