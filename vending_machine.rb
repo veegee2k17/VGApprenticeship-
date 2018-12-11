@@ -64,4 +64,12 @@ class VendingMachine
       puts "Your change is #{change1} cents."
     end
   end
+  # Print remaining balance
+  def item_quantity(code)
+    if @item[:quantity] == 1
+      puts "There is #{@item[:quantity]} #{@item[:name]} left."
+    else
+      puts "There are #{@item[:quantity]} #{@item[:name]}s left."
+    end
+  end
 end
