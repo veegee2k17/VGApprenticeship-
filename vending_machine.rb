@@ -69,11 +69,13 @@ class VendingMachine
   def item_balance(code)
     if @item[:quantity] == 1
       puts "There is #{@item[:quantity]} #{@item[:name]} left."
+      puts "===================================================\n"
+
     else
       puts "There are #{@item[:quantity]} #{@item[:name]}s left."
+      puts "===================================================\n"
     end
   end
-
 
   # Reset machine
   def reset_machine(vendor_answer)
@@ -81,5 +83,7 @@ class VendingMachine
     @items[2][:quantity] += 2
     @items[3][:quantity] += 2
     puts "The vending machine has been restocked. Your current inventory is #{@items[1][:quantity]} #{@items[1][:name]}s, #{@items[2][:quantity]} #{@items[2][:name]}s, and #{@items[3][:quantity]} #{@items[3][:name]}s."
+    '\n'
+    '\n'
   end
 end

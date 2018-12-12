@@ -10,7 +10,7 @@ items = {
 v = VendingMachine.new(items)
 
 while true do
-  puts "This vending machine sells Coke, Pepsi, and Sprite."
+  puts "\nThis vending machine sells Coke, Pepsi, and Sprite."
   puts "Select 1 for Coke, 2 for Pepsi, or 3 for Sprite."
   @code = gets.chomp
   @items = items
@@ -35,7 +35,7 @@ while true do
 
   v.show_price(@code.to_i)
 
-  puts "Do you want to make this your selection? Y or N."
+  puts "Do you want to make this your selection? Y or N.\n"
   answer = gets.chomp
 
   until answer == "Y" || answer == "y"
@@ -133,7 +133,7 @@ while true do
       |                        |
       |                        |
       ';----..............----;'
-        '--------------------'"
+        '--------------------'\n\n"
 
     elsif @code == "2"
       puts "
@@ -154,7 +154,7 @@ while true do
       |                        |
       |                        |
       ';----..............----;'
-        '--------------------'"
+        '--------------------'\n\n"
 
     elsif @code == "3"
       puts "
@@ -175,7 +175,7 @@ while true do
       |                        |
       |                        |
       ';----..............----;'
-        '--------------------'"
+        '--------------------'\n\n"
     end
   else
     puts "Your payment has been refunded. Goodbye!"
@@ -183,18 +183,20 @@ while true do
   v.item_balance(@code)
 
   if @items[1][:quantity] == 0 && @items[2][:quantity] == 0 && @items[3][:quantity] == 0
-    puts "This vending machine is out of order. Please key in vendor code to restock."
+    puts "This vending machine is out of order. Please enter vendor code to restock."
     @vendor_code = gets.chomp.to_i
 
-    if @vendor_code == 0
-      puts "Enter Y to restock the vending machine."
+    until @vendor_code == 0
+      puts "This vending machine is out of order. Please enter vendor code to restock."
+      @vendor_code = gets.chomp.to_i
     end
 
+    puts "Enter Y to restock the vending machine."
     @vendor_answer = gets.chomp
 
     if @vendor_answer == "y" || @vendor_answer == "Y"
       v.reset_machine(@vendor_answer)
-      return false
+
     else
       puts "Vending Machine has not been restocked. Goodbye."
       return false
