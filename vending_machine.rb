@@ -11,12 +11,12 @@ class VendingMachine
   end
 
   def selection_valid?(code)
-    @items.keys.include? code
+   @items.keys.include? code
   end
 
   def show_price(code)
-    item = @items[code]
-    puts "#{item[:name]} costs #{item[:price]} cents"
+    @item = @items[code]
+    puts "#{@item[:name]} costs #{@item[:price]} cents"
   end
 
   def current_selection(code)
@@ -38,23 +38,48 @@ class VendingMachine
   end
 
   def calculate_change(payment)
-    price = @items[:price].to_i
-    change = payment - price
+    @price = @items[:price].to_i
+    @change = @payment - @price
   end
 
   def vend(code, payment, final_payment, final_payment2)
-    item = @items[code.to_i]
-    price = item[:price].to_i
+    @item = @items[code.to_i]
+    @price = @item[:price].to_i
+    @quantity = @items[code.to_i][:quantity]
 
-    if final_payment2 != nil
-      change2 = final_payment - price
-      puts "Your change is #{change2} cents."
+    # Vending item
+    if @item[:quantity] == 0
+      puts "#{@item[:name]} is out of stock. Your payment has been refunded."
+    else
+      puts "Your #{@item[:name]} has been dispensed."
+      @item[:quantity] -= 1
     end
 
-    if final_payment != nil
-      change1 = final_payment - price
+    if final_payment2 != nil && final_payment2 > @price
+      change2 = final_payment2 - @price
+      puts "Your change is #{change2} cents."
+    elsif
+      final_payment != nil && final_payment > @price
+      change1 = final_payment - @price
       puts "Your change is #{change1} cents."
     end
-    puts "Your #{item[:name]} has been dispensed."
+  end
+
+  # Print remaining balance
+  def item_balance(code)
+    if @item[:quantity] == 1
+      puts "There is #{@item[:quantity]} #{@item[:name]} left."
+    else
+      puts "There are #{@item[:quantity]} #{@item[:name]}s left."
+    end
+  end
+
+
+  # Reset machine
+  def reset_machine(vendor_answer)
+    @items[1][:quantity] += 2
+    @items[2][:quantity] += 2
+    @items[3][:quantity] += 2
+    puts "The vending machine is restocked."
   end
 end
