@@ -75,15 +75,16 @@ while true do
 
   if payment >= price
     puts "You paid #{payment.to_i} cents. Press Y to vend, press N to refund."
+    answer = gets.chomp
   else
     puts "You paid #{payment} cents, You owe #{(price) - (payment)}. Submit the rest of your payment."
 
     @first_payment = payment
     @additional_payment = gets.chomp.to_i
 
-      until v.accept_payment(@additional_payment.to_i) == true
-        @additional_payment = gets.chomp.to_i
-      end
+    until v.accept_payment(@additional_payment.to_i) == true
+      @additional_payment = gets.chomp.to_i
+    end
 
     @final_payment = (@first_payment + @additional_payment).to_i
 
@@ -176,8 +177,25 @@ while true do
       ';----..............----;'
         '--------------------'"
     end
-  v.item_quantity(@code)
   else
     puts "Your payment has been refunded. Goodbye!"
+  end
+  v.item_balance(@code)
+
+  if @items[1][:quantity] == 0 && @items[2][:quantity] == 0 && @items[3][:quantity] == 0
+    puts "This vending machine is out of order. Please key in vendor code to restock."
+    @vendor_code = gets.chomp.to_i
+
+    if @vendor_code == 0
+      puts "Enter Y to restock the vending machine."
+    end
+    @vendor_answer = gets.chomp
+
+    if @vendor_answer == "y" || @vendor_answer == "Y"
+      v.reset_machine(@vendor_answer)
+    return false
+    end
+  else
+    true
   end
 end
