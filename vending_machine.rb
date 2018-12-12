@@ -80,6 +80,6 @@ class VendingMachine
     @items[1][:quantity] += 2
     @items[2][:quantity] += 2
     @items[3][:quantity] += 2
-    puts "The vending machine is restocked."
+    puts "The vending machine has been restocked. Your current inventory is #{@items[1][:quantity]} #{@items[1][:name]}s, #{@items[2][:quantity]} #{@items[2][:name]}s, and #{@items[3][:quantity]} #{@items[3][:name]}s."
   end
 end

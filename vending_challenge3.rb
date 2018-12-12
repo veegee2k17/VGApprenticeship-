@@ -189,11 +189,15 @@ while true do
     if @vendor_code == 0
       puts "Enter Y to restock the vending machine."
     end
+
     @vendor_answer = gets.chomp
 
     if @vendor_answer == "y" || @vendor_answer == "Y"
       v.reset_machine(@vendor_answer)
-    return false
+      return false
+    else
+      puts "Vending Machine has not been restocked. Goodbye."
+      return false
     end
   else
     true
